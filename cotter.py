@@ -1,15 +1,40 @@
 import math
-       
+
+# Bending stress formula
+
+def Bending_stress(power,D,thickness,b,tensile_stress):
+    bending_stress = ((power * D*3) / (4 * thickness * (b ** 2)))
+    bending_stress = round(bending_stress, 4)
+    print(f'Bending Stress is: {bending_stress} mm = {round(bending_stress)}mm')
+
+    if bending_stress < tensile_stress:
+        print(
+            f'\t\n bending stress is less than allowable tensile stress i.e, {bending_stress} < {tensile_stress} design is safe')
+    else:
+        print(
+            f'\t\n bending stress is greater than allowable tensile stress i.e, {bending_stress} > {tensile_stress} design is not safe')
+
+    
+    
 ''' Case 1: if the thickness is unknown 1st find thickness then move on to other parameter'''
     
 def case1(power,crushing_stress,tensile_stress,shear_stress):
+
+    # diameter of the solid rod
+
     solid_dia = math.sqrt((power * 4) / (math.pi * tensile_stress))
     solid_dia = round(solid_dia, 4)
     print("\n diameter of solid rod " + str(solid_dia) + "mm")
     print("\n Design of rod: ")
+    
+    
+    # diameter thickness to find thickness
+    
     d_t = (power / crushing_stress)
     d_t = round(d_t)
     print("\t d*t value:" + str(d_t))
+
+    # inner diameter and design of the collar calculation
 
     inner_dia = math.sqrt(((power / tensile_stress) + d_t) * (4 / math.pi))
     inner_dia = round(inner_dia, 4)
@@ -72,20 +97,18 @@ def case1(power,crushing_stress,tensile_stress,shear_stress):
 
     # for bending stress
 
-    bending_stress = ((power * D*3) / (4 * t * (b ** 2)))
-    bending_stress = round(bending_stress, 4)
-    print(f'Bending Stress is: {bending_stress} mm = {round(bending_stress)}mm')
-
-    if bending_stress < tensile_stress:
-        print(f'\t\n bending stress is less than allowable tensile stress i.e,    {bending_stress} < {tensile_stress} design is safe')
-    else:
-        print(f'\t\n bending stress is greater than allowable tensile stress i.e, {bending_stress} > {tensile_stress} design is not safe')
-
+    Bending_stress(power,D,t,b,tensile_stress)
+       
+''' Case 2: When all the parameters are givemn'''
 
 def case2(power,crushing_stress,tensile_stress,shear_stress,thickness):
+    
+    # diameter of the solid rod
+
     solid_dia = math.sqrt((power * 4) / (math.pi * tensile_stress))
     solid_dia = round(solid_dia, 4)
-    print("\ndiameter of solid rod " + str(solid_dia) + "mm")
+    print("\n diameter of solid rod " + str(solid_dia) + "mm")
+    print("\n Design of rod: ")
 
     # inner diameter and design of the collar calculation
     
@@ -123,6 +146,7 @@ def case2(power,crushing_stress,tensile_stress,shear_stress,thickness):
     b2 = round(5 * t, 4)
     print(f'\t width by 5*t is, b: {b2} mm ={round(b2)} mm')
 
+    b=0
     if b1 > b2:
         print(f'\t adopt the larger value, i.e b= {round(b, 4)} mm')
         b = b1
@@ -155,14 +179,4 @@ def case2(power,crushing_stress,tensile_stress,shear_stress,thickness):
 
     # for bending stress
 
-    bending_stress = ((power * D*3) / (4 * thickness * (b ** 2)))
-    bending_stress = round(bending_stress, 4)
-    print(f'Bending Stress is: {bending_stress} mm = {round(bending_stress)}mm')
-
-    if bending_stress < tensile_stress:
-        print(
-            f'\t\n bending stress is less than allowable tensile stress i.e, {bending_stress} < {tensile_stress} design is safe')
-    else:
-        print(
-            f'\t\n bending stress is greater than allowable tensile stress i.e, {bending_stress} > {tensile_stress} design is not safe')
-
+    Bending_stress(power,D,thickness,b,tensile_stress)
